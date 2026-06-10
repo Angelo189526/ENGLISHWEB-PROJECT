@@ -5,11 +5,197 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EnglishWeb</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center">
-  <div class="text-center">
-    <h1 class="text-4xl font-bold text-gray-800 mb-4">EnglishWeb</h1>
-    <p class="text-gray-500">Coming soon...</p>
+<body class="bg-slate-50 min-h-screen">
+
+  <!-- Sidebar -->
+  <div class="fixed left-0 top-0 h-full w-56 bg-white border-r border-slate-200 p-6 hidden lg:block">
+    <div class="flex items-center gap-3 mb-10">
+      <div class="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center">
+        <i class="fas fa-language text-white text-sm"></i>
+      </div>
+      <span class="font-bold text-slate-800 text-lg">EnglishWeb</span>
+    </div>
+    <nav class="space-y-1">
+      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-emerald-50 text-emerald-700 font-medium text-sm">
+        <i class="fas fa-home w-4"></i> Inicio
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-50 text-sm">
+        <i class="fas fa-chart-simple w-4"></i> Progreso
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-50 text-sm">
+        <i class="fas fa-book-open w-4"></i> Recursos
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-50 text-sm">
+        <i class="fas fa-font w-4"></i> Palabras
+      </a>
+    </nav>
   </div>
+
+  <!-- Main -->
+  <div class="lg:ml-56 min-h-screen">
+    <!-- Top bar -->
+    <header class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between lg:justify-end">
+      <div class="flex items-center gap-2 text-sm text-slate-500 lg:hidden">
+        <i class="fas fa-language text-emerald-600"></i>
+        <span class="font-semibold text-slate-800">EnglishWeb</span>
+      </div>
+      <div class="flex items-center gap-2 text-amber-600 text-sm bg-amber-50 px-3 py-1.5 rounded-lg">
+        <i class="fas fa-bolt text-amber-500"></i>
+        <span class="font-semibold" id="streak-count">0</span>
+        <span class="text-amber-400">días seguidos</span>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="p-6 max-w-4xl">
+
+      <!-- Pantalla 1: Selección -->
+      <div id="screen-select">
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-slate-800">¿Cuánto tiempo tienes hoy?</h2>
+          <p class="text-slate-400 text-sm mt-1">Elige una duración y generamos tu rutina</p>
+        </div>
+        <div class="flex gap-4">
+          <button class="flex-1 p-6 bg-white rounded-xl border border-slate-200 hover:border-emerald-400 hover:shadow-md transition-all">
+            <span class="block text-3xl font-bold text-emerald-600 mb-1">15</span>
+            <span class="text-sm text-slate-500">minutos</span>
+          </button>
+          <button class="flex-1 p-6 bg-white rounded-xl border border-slate-200 hover:border-emerald-400 hover:shadow-md transition-all">
+            <span class="block text-3xl font-bold text-emerald-600 mb-1">30</span>
+            <span class="text-sm text-slate-500">minutos</span>
+          </button>
+          <button class="flex-1 p-6 bg-white rounded-xl border border-slate-200 hover:border-emerald-400 hover:shadow-md transition-all">
+            <span class="block text-3xl font-bold text-emerald-600 mb-1">60</span>
+            <span class="text-sm text-slate-500">minutos</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Pantalla 2: Dashboard -->
+      <div id="screen-dashboard" class="hidden">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-slate-800">Rutina de hoy</h2>
+          <p class="text-slate-400 text-sm mt-1">Marca las tareas al completarlas</p>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="bg-white rounded-xl border border-slate-200 p-4 mb-6">
+          <div class="flex justify-between text-sm text-slate-600 mb-2">
+            <span>Progreso</span>
+            <span id="progress-text">0 / 3 tareas</span>
+          </div>
+          <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div id="progress-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="space-y-2" id="task-list">
+          <!-- Tarea normal -->
+          <div class="bg-white rounded-xl border border-slate-200 px-5 py-4 flex items-center gap-4 hover:border-slate-300 transition-colors">
+            <input type="checkbox" class="w-5 h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
+            <div class="flex-1 flex items-center gap-4">
+              <span class="text-sm font-medium text-slate-800 min-w-0 flex-1">The News in Slow English</span>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2.5 py-0.5 rounded-md font-medium shrink-0">listening</span>
+              <span class="text-xs text-slate-400 shrink-0 w-10 text-right">10 min</span>
+            </div>
+            <a href="#" class="text-slate-400 hover:text-emerald-600 transition-colors">
+              <i class="fas fa-arrow-up-right-from-square text-sm"></i>
+            </a>
+          </div>
+
+          <!-- Tarea de palabra con 7 pasos -->
+          <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+            <div class="px-5 py-4 flex items-center gap-4">
+              <input type="checkbox" class="w-5 h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
+              <div class="flex-1 flex items-center gap-4">
+                <span class="text-sm font-medium text-slate-800 min-w-0 flex-1">
+                  Palabra del día: <span class="text-emerald-600 font-semibold">Nevertheless</span>
+                </span>
+                <span class="text-xs bg-purple-100 text-purple-700 px-2.5 py-0.5 rounded-md font-medium shrink-0">vocabulary</span>
+                <span class="text-xs text-slate-400 shrink-0 w-10 text-right">15 min</span>
+              </div>
+              <button class="text-slate-400 hover:text-slate-700 transition-colors expand-btn">
+                <i class="fas fa-chevron-down text-sm"></i>
+              </button>
+            </div>
+            <div class="substeps hidden border-t border-slate-100">
+              <div class="divide-y divide-slate-100">
+                <label class="flex items-center gap-3 px-5 py-2.5 text-sm text-slate-600 cursor-pointer hover:bg-slate-50">
+                  <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-500">
+                  <span>1. Escucha la pronunciación</span>
+                </label>
+                <label class="flex items-center gap-3 px-5 py-2.5 text-sm text-slate-600 cursor-pointer hover:bg-slate-50">
+                  <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-500">
+                  <span>2. Repite la palabra en voz alta</span>
+                </label>
+                <label class="flex items-center gap-3 px-5 py-2.5 text-sm text-slate-600 cursor-pointer hover:bg-slate-50">
+                  <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-500">
+                  <span>3. Lee la definición y el ejemplo</span>
+                </label>
+                <label class="flex items-center gap-3 px-5 py-2.5 text-sm text-slate-600 cursor-pointer hover:bg-slate-50">
+                  <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-500">
+                  <span>4. Escribe la palabra 3 veces</span>
+                </label>
+                <label class="flex items-center gap-3 px-5 py-2.5 text-sm text-slate-600 cursor-pointer hover:bg-slate-50">
+                  <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-500">
+                  <span>5. Crea una oración original</span>
+                </label>
+                <label class="flex items-center gap-3 px-5 py-2.5 text-sm text-slate-600 cursor-pointer hover:bg-slate-50">
+                  <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-500">
+                  <span>6. Traduce la oración EN ⇄ ES</span>
+                </label>
+                <label class="flex items-center gap-3 px-5 py-2.5 text-sm text-slate-600 cursor-pointer hover:bg-slate-50">
+                  <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-500">
+                  <span>7. Escribe un mini-diálogo con la palabra</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Otra tarea -->
+          <div class="bg-white rounded-xl border border-slate-200 px-5 py-4 flex items-center gap-4 hover:border-slate-300 transition-colors">
+            <input type="checkbox" class="w-5 h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
+            <div class="flex-1 flex items-center gap-4">
+              <span class="text-sm font-medium text-slate-800 min-w-0 flex-1">Write about your weekend (100 words)</span>
+              <span class="text-xs bg-orange-100 text-orange-700 px-2.5 py-0.5 rounded-md font-medium shrink-0">writing</span>
+              <span class="text-xs text-slate-400 shrink-0 w-10 text-right">5 min</span>
+            </div>
+            <a href="#" class="text-slate-400 hover:text-emerald-600 transition-colors">
+              <i class="fas fa-arrow-up-right-from-square text-sm"></i>
+            </a>
+          </div>
+        </div>
+
+        <button id="btn-complete" class="mt-6 px-8 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors">
+          Completar rutina
+        </button>
+
+        <!-- Estado completado -->
+        <div id="state-completed" class="hidden text-center py-16">
+          <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-check text-emerald-600 text-2xl"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 mb-1">¡Rutina completada!</h2>
+          <p class="text-slate-500">Sigue así. Racha actual: <span class="font-semibold text-amber-600">3 días</span></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.expand-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const substeps = btn.closest('.overflow-hidden').querySelector('.substeps');
+        const icon = btn.querySelector('i');
+        substeps.classList.toggle('hidden');
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+      });
+    });
+  </script>
+
 </body>
 </html>
